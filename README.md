@@ -7,12 +7,12 @@ Documentation for Usage:
 
     Class Attributes
     ----------
-    environment : str
-        Short name of MessageMap environment "{env}.msgmap.io"
+    address : str 
+        Short name of MessageMap address "http://address.msgmap.io"
     application_id : str
         Application Id from UI
     application_apikey : str
-        Application APIKey from Environment ApiKey
+        Application APIKey from address ApiKey
 
     Methods
     -------

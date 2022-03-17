@@ -14,8 +14,8 @@ class MessageMap:
 
     Attributes
     ----------
-    environment : str
-        Short name of MessageMap environment "{env}.msgmap.io"
+    address : str
+        Short name of MessageMap environment "https://mydeployment.msgmap.io"
     application_id : str
         Application Id from UI
     application_apikey : str
@@ -39,14 +39,14 @@ class MessageMap:
 
         Parameters
         ----------
-            env : str
-                Short name of MessageMap environment "{env}.msgmap.io"
+            address : str
+                Short name of MessageMap environment "https://mydeployment.msgmap.io"
             appid : str
                 Application Id from UI
             apikey : str
                 Application APIKey from Environment ApiKey
         """
-        self.env = environment
+        self.addr = address
         self.appid = application_id
         self.apikey = application_apikey
         self.access_token = False
@@ -70,7 +70,7 @@ class MessageMap:
                 Returns:
                     apitokens (json): Returns the application tokens
         '''
-        conn = http.client.HTTPSConnection("%s.msgmap.io" % self.env)
+        conn = http.client.HTTPSConnection("%s" % self.addr)
         uri = "/api/auth/token?client_id=%s&grant_type=authorization_code&code=%s"\
               % (self.appid, self.apikey)
         conn.request("POST", uri, "", self.headers)
@@ -101,7 +101,7 @@ class MessageMap:
             self.access_token = self.auth()['access_token']
 
         self.headers['Authorization'] = "%s" % self.access_token
-        conn = http.client.HTTPSConnection("%s.msgmap.io" % self.env)
+        conn = http.client.HTTPSConnection("%s" % self.addr)
         uri = "/messages/%s" % topic
         if version:
             uri = "/messages/%s/%s" % (version, topic)
@@ -127,7 +127,7 @@ class MessageMap:
         if not self.access_token:
             self.access_token = self.auth()['access_token']
         self.headers ['Authorization'] = "%s" % self.access_token
-        conn = http.client.HTTPSConnection("%s.msgmap.io" % self.env)
+        conn = http.client.HTTPSConnection("%s" % self.addr)
         uri = "/messages"
         if limit and isinstance(limit, int):
             uri = "/messages?limit=%s" % limit
